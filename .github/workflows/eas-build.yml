@@ -1,0 +1,49 @@
+# Receita do Mini SK (painel ☁️ EAS): compila o APK na nuvem do Expo.
+# O token do Expo NÃO fica aqui: ele vai trancado em Settings → Secrets → EXPO_TOKEN.
+name: "☁️ APK pelo EAS"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  eas:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "1. Baixar o projeto"
+        uses: actions/checkout@v4
+
+      - name: "2. Conferir o token do Expo"
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then echo "::error::Falta o EXPO_TOKEN em Settings → Secrets → Actions. Use o painel ☁️ EAS do Mini SK."; exit 1; fi
+
+      - name: "3. Node 20"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: "4. Instalar as dependências"
+        run: |
+          if [ -f package-lock.json ]; then npm ci || npm install --legacy-peer-deps; else npm install --legacy-peer-deps; fi
+
+      - name: "4b. Acertar as versões para o Expo do projeto (oficial: expo install --fix)"
+        run: npx expo install --fix -- --legacy-peer-deps || echo "Não deu para acertar sozinho; seguindo assim mesmo."
+
+      - name: "5. Programa oficial do Expo (eas-cli)"
+        run: npm install -g eas-cli@latest
+
+      - name: "6. Mostrar a configuração"
+        run: |
+          node -e "const e=require('./app.json').expo||{};console.log('App:',e.name,'| slug:',e.slug,'| dono:',e.owner,'| pacote:',(e.android||{}).package,'| projectId:',((e.extra||{}).eas||{}).projectId)"
+
+      - name: "7. Mandar compilar no Expo (perfil preview = APK)"
+        run: eas build --platform android --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EAS_NO_VCS: "1"
+
+      - name: "8. Onde baixar"
+        run: |
+          node -e "const e=require('./app.json').expo||{};const u='https://expo.dev/accounts/'+e.owner+'/projects/'+e.slug+'/builds';console.log('APK em uns 10-15 minutos:',u);require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,'## APK em uns 10-15 minutos\n'+u+'\n')"

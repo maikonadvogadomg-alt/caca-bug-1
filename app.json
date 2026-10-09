@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "android": {},
+    "name": "Buh-",
+    "slug": "bug-",
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "0b7ad98a-1fa7-4ad6-9ccc-a46e4d770482"
+      }
+    },
+    "owner": "maikon1766"
+  }
+}

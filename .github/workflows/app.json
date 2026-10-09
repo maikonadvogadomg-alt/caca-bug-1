@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "bug-",
+    "slug": "bug-",
+    "version": "1.0.0",
+    "owner": "maikon1766",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "0b7ad98a-1fa7-4ad6-9ccc-a46e4d770482"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "package": "0b7ad98a-1fa7-4ad6-9ccc-a46e4d770482",
+      "versionCode": 1,
+      "minSdkVersion": 21,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "__COLE_SEU_PROJECT_ID_AQUI__"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}
